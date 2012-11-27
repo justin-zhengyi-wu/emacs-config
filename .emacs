@@ -67,7 +67,11 @@
 ;; use C-tab to do auto complete 
 (global-set-key [C-tab] 'auto-complete)
 ;(global-set-key [C-tab] 'complete-tag)
-
+;; 各窗口间切换  
+(global-set-key (kbd "C-x <C-left>") 'windmove-left)  
+(global-set-key (kbd "C-x <C-right>") 'windmove-right)  
+(global-set-key (kbd "C-x <C-up>") 'windmove-up)  
+(global-set-key (kbd "C-x <C-down>") 'windmove-down)  
 (global-set-key [f11] 'my-fullscreen)
 (defun my-fullscreen ()
   (interactive)
