@@ -147,6 +147,29 @@
               (auto-complete-mode t))))
 
 
+
+
+;; ActionScript code getter/setter
+(defun insert-gettersetter (type field)
+  "Inserts a ActionScript field, and getter/setter methods."
+  (interactive "MType: \nMField: ")
+  (let ((oldpoint (point))
+        (capfield (concat (capitalize (substring field 0 1)) (substring field 1)))
+        )
+    (insert (concat "public function get " field "():" type "\n"
+                    "{\n"
+                    "    return _" field ";\n"
+                    "}\n\n"
+                    "public function set " field "(value:" type "):void\n"
+                    "{\n"
+                    "    _" field " = value;\n"
+                    "}\n"
+                    ))
+    (c-indent-region oldpoint (point) t)
+    )
+  )
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load CEDET.
 ;; See cedet/common/cedet.info for configuration details.
