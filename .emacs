@@ -67,11 +67,7 @@
 ;; use C-tab to do auto complete 
 (global-set-key [C-tab] 'auto-complete)
 ;(global-set-key [C-tab] 'complete-tag)
-;; 各窗口间切换  
-(global-set-key (kbd "C-x <C-left>") 'windmove-left)  
-(global-set-key (kbd "C-x <C-right>") 'windmove-right)  
-(global-set-key (kbd "C-x <C-up>") 'windmove-up)  
-(global-set-key (kbd "C-x <C-down>") 'windmove-down)  
+
 (global-set-key [f11] 'my-fullscreen)
 (defun my-fullscreen ()
   (interactive)
@@ -145,29 +141,6 @@
               (make-variable-buffer-local 'ac-sources)
               (add-to-list 'ac-sources 'ac-source-php-completion)
               (auto-complete-mode t))))
-
-
-
-
-;; ActionScript code getter/setter
-(defun insert-gettersetter (type field)
-  "Inserts a ActionScript field, and getter/setter methods."
-  (interactive "MType: \nMField: ")
-  (let ((oldpoint (point))
-        (capfield (concat (capitalize (substring field 0 1)) (substring field 1)))
-        )
-    (insert (concat "public function get " field "():" type "\n"
-                    "{\n"
-                    "    return _" field ";\n"
-                    "}\n\n"
-                    "public function set " field "(value:" type "):void\n"
-                    "{\n"
-                    "    _" field " = value;\n"
-                    "}\n"
-                    ))
-    (c-indent-region oldpoint (point) t)
-    )
-  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
