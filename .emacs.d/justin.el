@@ -50,7 +50,7 @@
 (yas-global-mode 1)
 
 ;; Enable Zen Coding.
-(add-to-list 'load-path  "/home/justin/Public/git/zencoding/")
+(add-to-list 'load-path  "~/Public/git/zencoding/")
 (require 'zencoding-mode)
 
 ;; Use jshint to validate JS codes
