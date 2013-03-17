@@ -46,6 +46,20 @@
 ;; nxhtml mode for xhtml and php
 (load "~/.emacs.d/nxhtml/autostart.el")
 
+;; Enable yasnippet globally.
+(yas-global-mode 1)
+
+;; Enable Zen Coding.
+(add-to-list 'load-path  "/home/justin/Public/git/zencoding/")
+(require 'zencoding-mode)
+
+;; Use jshint to validate JS codes
+(add-to-list 'load-path "~/Public/git/flymake-node-jshint")
+(require 'flymake-node-jshint)
+(require 'flymake-cursor)
+;(setq flymake-node-jshint-config "~/.jshintrc-node.json") ; optional
+(add-hook 'js-mode-hook (lambda () (flymake-mode 1)))
+
 ;; 
 (when (and (equal emacs-major-version 24)
            (equal emacs-minor-version 2))
