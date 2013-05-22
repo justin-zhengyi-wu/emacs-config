@@ -15,6 +15,15 @@
 (global-set-key (kbd "<F1>") 'help-command)
 ;; F7 Speedbar.
 (global-set-key (kbd "<F7>") 'speedbar)
+;; use C-tab to do auto complete
+(global-set-key [C-tab] 'auto-complete)
+
+;; 各窗口间切换  
+(global-set-key (kbd "C-x <C-left>") 'windmove-left)  
+(global-set-key (kbd "C-x <C-right>") 'windmove-right)  
+(global-set-key (kbd "C-x <C-up>") 'windmove-up)  
+(global-set-key (kbd "C-x <C-down>") 'windmove-down)  
+
 
 
 ;; Show line numbers.
