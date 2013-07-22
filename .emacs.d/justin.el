@@ -15,6 +15,8 @@
 (global-set-key (kbd "<F1>") 'help-command)
 ;; F7 Speedbar.
 (global-set-key (kbd "<F7>") 'speedbar)
+;; F11 to toggle maxmize the window
+(global-set-key [f11] 'my-fullscreen)
 ;; use C-tab to do auto complete
 (global-set-key [C-tab] 'auto-complete)
 
