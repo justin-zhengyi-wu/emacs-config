@@ -1,0 +1,10 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: try
+# contributor: Justin Wu <justin.zhengyi.wu@gmail.com>
+# --
+try {
+    $1
+} catch (${2:ex}) {
+    $3
+}
+$0
