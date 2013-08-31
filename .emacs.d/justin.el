@@ -36,8 +36,7 @@
 ;; Color theme
 (add-to-list 'load-path "~/.emacs.d/elpa/color-theme-6.5.5")
 (require 'color-theme)
-;(color-theme-initialize)
-(color-theme-classic)
+(color-theme-calm-forest)
 
 ;; Auto complete
 (add-to-list 'load-path "~/.emacs.d/elpa/popup-0.5")
