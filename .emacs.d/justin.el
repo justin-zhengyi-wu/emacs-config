@@ -53,6 +53,14 @@
 (setq ac-ignore-case nil)
 (ac-config-default)
 
+;; Fullcreen for Linux
+(defun my-fullscreen ()
+ (interactive)
+ (x-send-client-message
+  nil 0 nil "_NET_WM_STATE" 32
+  '(2 "_NET_WM_STATE_FULLSCREEN" 0))
+)
+
 ;; nxhtml mode for xhtml and php
 (load "~/.emacs.d/nxhtml/autostart.el")
 
