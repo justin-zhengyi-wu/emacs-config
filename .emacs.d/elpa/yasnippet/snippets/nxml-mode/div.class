@@ -1,0 +1,5 @@
+# contributor: Anders Bach Nielsen <abachn@abachn.net>
+# name: <div class="...">...</div>
+# key: div
+# --
+<div class="$1">$0</div>
