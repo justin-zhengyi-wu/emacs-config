@@ -1,4 +1,5 @@
 (setq stack-trace-on-error t)
+(auto-fill-mode -1)
 
 ;; 启动Emacs Server
 (server-start)
