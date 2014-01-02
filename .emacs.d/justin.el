@@ -65,6 +65,12 @@
 ;; nxhtml mode for xhtml and php
 (load "~/.emacs.d/nxhtml/autostart.el")
 
+;; Change to use 4 spaces for tab in HTML mode.
+(add-hook 'html-mode-hook
+          (lambda()
+            (setq sgml-basic-offset 4)
+            (setq indent-tabs-mode t)))
+
 ;; Enable yasnippet globally.
 (yas-global-mode 1)
 
