@@ -63,7 +63,7 @@
 )
 
 ;; nxhtml mode for xhtml and php
-(load "~/.emacs.d/nxhtml/autostart.el")
+;(load "~/.emacs.d/nxhtml/autostart.el")
 
 ;; Change to use 4 spaces for tab in HTML mode.
 (add-hook 'html-mode-hook
@@ -78,6 +78,10 @@
 ;; Enable Zen Coding.
 (add-to-list 'load-path  "~/Public/git/zencoding/")
 (require 'zencoding-mode)
+
+;; Mustache mode - A good web template language.
+(add-to-list 'load-path "~/.emacs.d/vendor/mustache-mode.el")
+(require 'mustache-mode)
 
 ;; Use jshint to validate JS codes
 (add-to-list 'load-path "~/Public/git/flymake-node-jshint")
