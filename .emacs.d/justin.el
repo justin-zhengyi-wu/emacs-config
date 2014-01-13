@@ -80,7 +80,7 @@
 (require 'zencoding-mode)
 
 ;; Mustache mode - A good web template language.
-(add-to-list 'load-path "~/.emacs.d/vendor/mustache-mode.el")
+(add-to-list 'load-path "~/.emacs.d/vendor/")
 (require 'mustache-mode)
 
 ;; Use jshint to validate JS codes
