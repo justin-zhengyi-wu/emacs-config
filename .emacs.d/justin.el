@@ -75,6 +75,15 @@
 ;; Enable yasnippet globally.
 (yas-global-mode 1)
 
+
+;; markdown mode
+(add-to-list 'load-path "~/.emacs.d/site-lisp/markdown-mode")
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+
 ;; Enable Zen Coding.
 (add-to-list 'load-path  "~/Public/git/zencoding/")
 (require 'zencoding-mode)
