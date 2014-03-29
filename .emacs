@@ -15,7 +15,9 @@
 ;(setq column-number-mode t)
 ;(setq line-number-mode t)
 ;; 启动Emacs Server
-(server-start)
+(require 'server)
+(or (server-running-p)
+    (server-start))
 ;; set folder for auto-save
 (setq
    backup-by-copying t ; 自动备份
