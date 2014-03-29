@@ -2,7 +2,9 @@
 (auto-fill-mode -1)
 
 ;; 启动Emacs Server
-(server-start)
+(require 'server)
+(or (server-running-p)
+    (server-start))
 
 ;; Key Bindings
 ;; use C-w to backward kill word, be consistent with Unix shell
