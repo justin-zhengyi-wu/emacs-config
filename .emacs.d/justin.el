@@ -6,6 +6,10 @@
 (or (server-running-p)
     (server-start))
 
+;; Disable auto-fill-mode
+(auto-fill-mode -1)
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)
+
 ;; Key Bindings
 ;; use C-w to backward kill word, be consistent with Unix shell
 (global-set-key "\C-w" 'backward-kill-word)
