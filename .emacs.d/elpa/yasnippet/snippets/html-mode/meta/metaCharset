@@ -1,0 +1,5 @@
+# contributor: Justin Zhengyi Wu <justin.zhengyi.wu@gmail.com>
+# name: <meta charset="utf-8" />
+# key: meta
+# --
+<meta charset="${1:utf-8}" />

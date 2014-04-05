@@ -1,0 +1,5 @@
+# contributor: Justin Wu<justin.zhengyi.wu@gmail.com>
+# name: attr="..."
+# key: attr
+# --
+${1:class}="$2"
