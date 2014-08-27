@@ -47,6 +47,8 @@
 ;(global-set-key (kbd "<S-f8>") 'nxml-mode)
 ;; F11 to toggle maxmize the window
 (global-set-key [f11] 'my-fullscreen)
+;; use Command-Return keys on Mac OS X to toggle maxmize full screen.
+;(global-set-key (kbd "<s-return>") 'toggle-frame-fullscreen)
 ;; use C-tab to do auto complete
 (global-set-key [C-tab] 'auto-complete)
 
@@ -90,12 +92,23 @@
 ;; nxhtml mode for xhtml and php
 ;(load "~/.emacs.d/nxhtml/autostart.el")
 
+
 ;; Change to use 4 spaces for tab in HTML mode.
-(add-hook 'html-mode-hook
-          (lambda()
-            (setq sgml-basic-offset 4)
-            (turn-off-auto-fill)
-            (setq indent-tabs-mode t)))
+;; (add-hook 'html-mode-hook
+;;           (lambda()
+;;             (setq sgml-basic-offset 4)
+;;             (turn-off-auto-fill)
+;;             (setq indent-tabs-mode t)))
+
+;; Change to use 2 spaces for tab in JS mode.
+;; (add-hook 'js-mode-hook
+;;           (lambda()
+;;             (setq sgml-basic-offset 2)
+;;             (setq tab-width 2)
+;;             (turn-off-auto-fill)
+;;             (setq js-indent-level 2)
+;;             (setq indent-tabs-mode nil)))
+;; Change to use 4 spaces for tab in HTML mode.
 
 ;; Enable yasnippet globally.
 (yas-global-mode 1)
@@ -147,6 +160,12 @@
 ;; Mustache mode - A good web template language.
 (add-to-list 'load-path "~/.emacs.d/vendor/")
 (require 'mustache-mode)
+
+;; Go lang
+(add-to-list 'load-path "~/.emacs.d/vendor/golang/")
+(require 'go-mode-load)
+(require 'go-flymake)
+(add-hook 'before-save-hook 'gofmt-before-save)
 
 ;; actionscript mode
 (add-to-list 'load-path "~/.emacs.d/site-lisp/actionscript-mode")
