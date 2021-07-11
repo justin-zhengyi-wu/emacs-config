@@ -1,0 +1,565 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; global bing key
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; use C-x C-m instead of M-x to execute extended command
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+;; use C-w to backward kill word, be consistent with Unix shell
+(global-set-key "\C-w" 'backward-kill-word)
+;; use C-x C-k instead of C-w to kill region
+(global-set-key "\C-x\C-k" 'kill-region)
+;; use C-h to back delete char as backspace key,
+;; be consistent with Unix shell.
+(global-set-key "\C-h" 'backward-delete-char)
+;; use F1 instead of C-h
+(global-set-key (kbd "<f1>") 'help-command)
+;; Band key F6 to run shell command
+(global-set-key (kbd "<f6>") 'shell-command)
+;; F8 change to actionscript mode
+(global-set-key (kbd "<f8>") 'actionscript-mode)
+;; F9 change to nxml mode
+(global-set-key (kbd "<f9>") 'nxml-mode)
+
+;; 各窗口间切换  
+(global-set-key (kbd "C-x <C-left>") 'windmove-left)  
+(global-set-key (kbd "C-x <C-right>") 'windmove-right)  
+(global-set-key (kbd "C-x <C-up>") 'windmove-up)  
+(global-set-key (kbd "C-x <C-down>") 'windmove-down)  
+;; use C-tab to complete tag
+(define-key lisp-mode-shared-map [(control tab)] 'complete-tag)
+(add-hook 'actionscript-mode-hook  
+    (lambda ()
+        (define-key actionscript-mode-map [(control tab)] 'complete-tag)))
+;; F11 set as full screen
+(global-set-key [f11] 'my-fullscreen);; For Linux
+(global-set-key [f11] 'my-toggle-fullscreen);; For Windows
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; global bing key
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Etags
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;(setq tags-table-list '("D:/Perforce/trunk/products/bnimgmt/TAGS" "D:/Public/flex_sdk_4/frameworks/projects/TAGS" "d:/Perforce/trunk/products/coreui/TAGS"))
+;;(setq tags-table-list '("/home/bninet/Public/Flex/sdk/frameworks/projects/TAGS"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Etags
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; my own functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Fullcreen for Linux
+(defun my-fullscreen ()
+ (interactive)
+ (x-send-client-message
+  nil 0 nil "_NET_WM_STATE" 32
+  '(2 "_NET_WM_STATE_FULLSCREEN" 0))
+)
+;; Fullcreen for Windows
+(defvar my-fullscreen-p t "Check if fullscreen is on or off")
+
+(defun my-non-fullscreen ()
+ (interactive)
+ (if (fboundp 'w32-send-sys-command)
+     ;; WM_SYSCOMMAND restore #xf120
+     (w32-send-sys-command 61728)
+   (progn (set-frame-parameter nil 'width 82)
+          (set-frame-parameter nil 'fullscreen 'fullheight))))
+
+(defun my-fullscreen ()
+ (interactive)
+ (if (fboundp 'w32-send-sys-command)
+     ;; WM_SYSCOMMAND maximaze #xf030
+     (w32-send-sys-command 61488)
+   (set-frame-parameter nil 'fullscreen 'fullboth)))
+
+(defun my-toggle-fullscreen ()
+ (interactive)
+ (setq my-fullscreen-p (not my-fullscreen-p))
+ (if my-fullscreen-p
+     (my-non-fullscreen)
+   (my-fullscreen)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; my own functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; plugins
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; 颜色主题
+(add-to-list 'load-path "~/.emacs.d/site-lisp/color-theme")
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-comidia)
+
+;; javascript mode
+(add-to-list 'load-path "~/.emacs.d/site-lisp/js2")
+(require 'js2-mode)
+;;(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+;; auto complete
+(add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/auto-complete/ac-dict")
+(ac-config-default)
+
+;; nxhtml mode for xhtml and php
+(load "~/.emacs.d/nxhtml/autostart.el")
+
+;; Load CEDET.
+;; See cedet/common/cedet.info for configuration details.
+(load-file "~/.emacs.d/cedet/common/cedet.el")
+;;
+;; Enable EDE (Project Management) features
+(global-ede-mode 1)
+;;
+;; Enable EDE for a pre-existing C++ project
+;; (ede-cpp-root-project "NAME" :file "~/myproject/Makefile")
+;;
+;; Enabling Semantic (code-parsing, smart completion) features
+;; Select one of the following:
+;;
+;; * This enables the database and idle reparse engines
+(semantic-load-enable-minimum-features)
+;;
+;; * This enables some tools useful for coding, such as summary mode
+;;   imenu support, and the semantic navigator
+(semantic-load-enable-code-helpers)
+;;
+;; * This enables even more coding tools such as intellisense mode
+;;   decoration mode, and stickyfunc mode (plus regular code helpers)
+;; (semantic-load-enable-gaudy-code-helpers)
+;;
+;; * This enables the use of Exuberent ctags if you have it installed.
+;;   If you use C++ templates or boost, you should NOT enable it.
+;; (semantic-load-enable-all-exuberent-ctags-support)
+;;   Or, use one of these two types of support.
+;;   Add support for new languges only via ctags.
+;; (semantic-load-enable-primary-exuberent-ctags-support)
+;;   Add support for using ctags as a backup parser.
+;; (semantic-load-enable-secondary-exuberent-ctags-support)
+;;
+;; Enable SRecode (Template management) minor-mode.
+;; (global-srecode-minor-mode 1)
+
+;; ECB: Emacs Code Browser
+(add-to-list 'load-path "~/.emacs.d/ecb")
+(require 'ecb)
+
+;; JDEE
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/jdee-2.4.0.1/lisp"))
+;(add-to-list 'load-path (expand-file-name "~/emacs/site/cedet/common"))
+;(load-file (expand-file-name "~/emacs/site/cedet/common/cedet.el"))
+;(add-to-list 'load-path (expand-file-name "~/emacs/site-lisp/elib"))
+(require 'jde)
+;(load "jde")
+;(setq jde-web-browser "netscape")
+;(setq jde-doc-dir "c:/jdk1.1/docs/")
+;(jde-db-set-source-paths "/usr/lib/jvm/jdk1.6.0_29/src/:")
+(setq jde-jdk-registry
+      '(
+        ("1.6.0.29" . "/usr/lib/jvm/jdk1.6.0_29")))
+(setq jde-jdk '("1.6.0.29"))
+;(setq jde-jdk-doc-url "/usr/lib/jvm/jdk1.6.0_29/db/docs/html/ref/index.html")
+(setq jde-enable-abbrev-mode t)
+
+;; ;; Java with Maven
+;; ;; Or enable more if you wish
+;;     (setq semantic-default-submodes '(global-semantic-idle-scheduler-mode
+;;                                       global-semanticdb-minor-mode
+;;                                       global-semantic-idle-summary-mode
+;;                                       global-semantic-mru-bookmark-mode))
+;;     (semantic-mode 1)
+;;     (require 'malabar-mode)
+;;     (setq malabar-groovy-lib-dir "/path/to/malabar/lib")
+;;     (add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
+;; ; If you want to mimic the IDEish compile-on-save behaviour, add the following as well:
+;; (add-hook 'malabar-mode-hook
+;;      (lambda () 
+;;        (add-hook 'after-save-hook 'malabar-compile-file-silently
+;;                   nil t)))
+
+;; PHP mode
+(setq load-path (cons "~/.emacs.d/php-mode" load-path))
+(autoload 'php-mode "php-mode" "PHP editing mode" t)
+(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+
+;; php auto complete
+(add-to-list 'load-path "~/.emacs.d/site-lisp/php/")
+(require 'install-elisp)
+(setq install-elisp-repository-directory "~/.emacs.d/site-lisp/php/")
+(require 'php-mode)
+(add-hook 'php-mode-hook
+         (lambda()
+           (require 'php-completion)
+           (php-completion-mode t)
+           (define-key php-mode-map (kbd "C-c p") 'phpcmp-complete)
+           (when (require 'auto-complete nil t)
+             (make-variable-buffer-local 'ac-sources)
+             (add-to-list 'ac-sources 'ac-source-php-completion)
+             (auto-complete-mode t))))
+
+;; actionscript mode
+(add-to-list 'load-path "~/.emacs.d/site-lisp/actionscript-mode/")
+(when (require 'actionscript-mode nil t)
+(setq auto-mode-alist
+      (append '(("\\.as$" . actionscript-mode))
+              auto-mode-alist)))
+(setq nxml-mode-hook
+    '(lambda ()
+(setq tab-width        4
+      indent-tabs-mode nil)
+      (set-variable 'nxml-child-indent     4)
+      (set-variable 'nxml-attribute-indent 4)
+      ))
+
+;; -------------------------------------------------------------------
+;; actionscript
+;; -------------------------------------------------------------------
+(load "~/.emacs.d/site-lisp/ani-fcsh.el")
+;; -------------------------------------------------------------------
+;; Imenu for actionscript
+;; -------------------------------------------------------------------
+(add-hook 'actionscript-mode-hook 'imenu-add-menubar-index)
+(add-hook 'actionscript-mode-hook 'actionscript-init-imenu)
+(autoload 'actionscript-mode "actionscript-mode" "Major mode for actionscript." t)
+; Activate actionscript-mode for any files ending in .as
+(add-to-list 'auto-mode-alist '("\\.as$" . actionscript-mode))
+;; Load our actionscript-mode extensions.
+;(eval-after-load "actionscript-mode" '(load "as-config"))
+
+(auto-insert-mode t)
+;;(setq auto-insert-query nil) ;So I am not asked before insertion
+(setq auto-insert-alist
+'(
+(("\\.as\\'" . "Actionscript Program")
+nil
+"package\n"
+"{\n"
+"public class " (insert (substring (file-name-nondirectory buffer-file-name) 0 -3))"\n"
+"{\n"
+"}\n"
+"}\n"
+)
+))
+
+(defun actionscript-init-imenu ()
+(interactive)
+(setq imenu-generic-expression as-imenu-as-generic-expression)
+(global-set-key [mouse-3] 'imenu))
+
+(defvar as-imenu-as-generic-expression
+` (
+("variables"
+,(concat
+"^" ; line MUST start with word char
+"[ \t]*\\(public\\|protected\\|mx_internal\\|private\\)"
+"[ \t]+var"
+"[ \t]+\\([a-zA-Z_][a-zA-Z0-9_]*\\)" ; match function name
+"[ \t]*:\\([a-zA-Z_][a-zA-Z0-9_]*\\)"
+), 2)
+;; Getters
+("Getters"
+,(concat
+"^" ; line MUST start with word char
+"[ \t]*\\(override[ \t\n]+\\)?" ; no parentheses before
+"[ \t]*\\(public\\|protected\\|mx_internal\\|private\\)"
+"[ \t]+function"
+"[ \t]+"
+"\\(get[ \t]+\\([a-zA-Z_][a-zA-Z0-9_]*\\)[ \t]*\\)()" ; getter
+) 3)
+;;setters
+("setters"
+,(concat
+"^" ; line MUST start with word char
+"[ \t]*\\(override[ \t\n]+\\)?" ; no parentheses before
+"[ \t]*\\(public\\|protected\\|mx_internal\\|private\\)"
+"[ \t]+function"
+"[ \t]+"
+"\\(set[ \t]+\\([a-zA-Z_][a-zA-Z0-9_]*\\)[ \t]*\\)" ; setter
+"("
+"\\([a-zA-Z_][a-zA-Z0-9_]*\\):\\([a-zA-Z_][a-zA-Z0-9_]*\\)[ \t\n]*"
+")"
+) 3)
+
+;; Class definitions
+(nil
+,(concat
+"^" ; beginning of line is required
+"\\(\\(public\\|protected\\|mx_internal\\|private\\)[ \t]+\\)?"
+"\\(class\\|interface\\)[ \t]+"
+"\\(" ; the string we want to get
+"[a-zA-Z0-9_]+" ; class name
+"\\)"
+"[ \t\n]*"
+"\\(extends [ \t\n]*[a-zA-Z0-9_]+\\)?"
+"[ \t\n]*";;[:{]"
+"\\(implements [ \t\n]*\\([a-zA-Z0-9_]+[,][ \t\n]*\\)*[a-zA-Z0-9_]\\)?"
+"[ \t\n]*";;[:{]"
+) 4)
+
+;; General function name regexp
+(nil
+,(concat
+"^" ; line MUST start with word char
+"[ \t]*\\(override[ \t\n]+\\)?" ; no parentheses before
+"[ \t]*\\(public\\|protected\\|mx_internal\\|private\\)"
+"\\([ \t]+static\\)?" ; no parentheses before
+"[ \t]+function"
+"[ \t]+\\([a-zA-Z_][a-zA-Z0-9_]*\\)" ; match function name
+"[ \t]*("
+"[^)]*)"
+) 4)
+)
+"Imenu generic expression for C++ mode. See `imenu-generic-expression'.")
+
+
+;; -------------------------------------------------------------------
+;; auto-insert for actionscript
+;; -------------------------------------------------------------------
+
+;; (auto-insert-mode t)
+;; (setq auto-insert-alist
+;; (append '(((actionscript-mode . "Actionscript Mode") . insert-as-template))
+;; auto-insert-alist))
+
+;; (defvar flex-home "D:/Public/flex_sdk_4")
+
+;; (defun get-dot-seperated (file-name)
+;; (interactive)
+;; (setq file-name (substring file-name 1 )) ;; Get rid of the first /
+;; (setq parts (split-string file-name "/")) ;; split string into parts based on /
+;; ;;Start creating . seperated import string
+;; (setq file-dot-path "")
+;; (while parts
+;; (setq token (car parts))
+;; (setq file-dot-path (concat file-dot-path "." token))
+;; (setq parts (cdr parts)))
+;; (substring file-dot-path 1))
+
+;; (defun insert-as-template ()
+;; (interactive)
+;; (let ((baseclass (read-file-name "[]base class?" flex-home))
+;; (package (read-string "[]Package?" ""))
+;; ;;(title (substring (file-name-nondirectory buffer-file-name) 0 -3))
+;; (title (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
+;; (tab "t"))
+
+;; (insert (concat
+;; "package " package "\n"
+;; "{\n"))
+
+;; (setq hasBaseClass (not (or (= (length baseclass) 0)
+;; (equal buffer-file-name baseclass))))
+
+;; (when hasBaseClass
+;; (setq foo (length flex-home))
+;; (setq base-class-name (substring baseclass foo ( - (length baseclass) 3))) ;;get /mx/controls/Datagrid from full path
+;; (insert (concat "import " (get-dot-seperated base-class-name) ";n")))
+
+;; (setq point-for-imports (point))
+
+;; (insert (concat "public class " title))
+
+;; (if hasBaseClass
+;; (insert (concat " extends " (file-name-sans-extension (file-name-nondirectory baseclass)))))
+
+;; (setq point-after-class (point))
+
+;; (insert (concat
+;; "n"
+;; "{n"
+;; "n"
+;; tab "//--------------------------------------------------------------------------n"
+;; tab "//n"
+;; tab "// Constructorn"
+;; tab "//n"
+;; tab "//--------------------------------------------------------------------------n"
+;; "n"
+;; tab "/**n"
+;; tab "* Constructor.n"
+;; tab "*/n"
+;; tab "public function " title "()n"
+;; tab "{n"
+;; tab tab "//Start from heren" tab tab))
+
+;; ;;bookmark this point, so that we can place the cursor here when finished
+;; (setq point-beginning (point))
+;; (insert (concat
+;; "n"
+;; tab "}n"
+;; "}n"
+;; "}n"
+;; )))
+
+;; (setq imports-for-interfaces "")
+;; (setq implements-string "")
+;; (setq base-class-path "")
+;; (setq prompt t)
+;; (while prompt
+;; (let ((interface (read-file-name "[]implements?" flex-home)))
+
+;; (when (not (or (= (length interface) 0)
+;; (equal buffer-file-name interface)))
+
+;; (setq foo (length flex-home))
+;; (setq interface-name (substring interface foo ( - (length interface) 3))) ;;get /mx/controls/Datagrid from full path
+;; (setq imports-for-interfaces (concat imports-for-interfaces "import " (get-dot-seperated interface-name) ";n"))
+;; (setq implements-string (concat implements-string (file-name-sans-extension (file-name-nondirectory interface-name)) ",")))
+
+;; (if (or (= (length interface) 0)
+;; (equal buffer-file-name interface))
+;; (setq prompt nil))))
+
+;; (when (> (length implements-string) 0)
+;; (setq implements-string (substring implements-string 0 (1- (length implements-string))))
+;; (goto-char point-after-class)
+;; (insert (concat "nt" "implements " implements-string))
+;; (setq point-beginning (+ point-beginning (length implements-string))))
+
+;; (when (> (length imports-for-interfaces) 0)
+;; (goto-char point-for-imports)
+;; (insert (concat imports-for-interfaces "n"))
+;; (setq point-beginning (+ point-beginning (length imports-for-interfaces))))
+
+;; (goto-char point-beginning))
+
+
+;================================================================
+
+;; -------------------------------------------------------------------
+;; flymake mode for actionscript 3
+;; -------------------------------------------------------------------
+(require 'actionscript-mode)
+(add-to-list 'auto-mode-alist '("\\.as$" . actionscript-mode))
+
+(require 'compile)
+;; Find error messages in flex compiler output:
+(push '("^\\(.*\\)(\\([0-9]+\\)): col: \\([0-9]+\\) Error: \\(.*\\)$" 1 2 3 2) compilation-error-regexp-alist)
+
+(require 'flymake)
+(setq flymake-no-changes-timeout 1800)
+
+(defvar as3-build-file nil)
+
+(defvar as3-default-build-file-name "build_manage.rb")
+
+(defun flymake-as3-mode (&optional file)
+(interactive
+(list (read-file-name "Build file: " default-directory as3-default-build-file-name)))
+(message file)
+(flymake-mode 0)
+(let* ((build-file
+     (if file (expand-file-name file)
+     (if as3-build-file as3-build-file
+     (expand-file-name (concat default-directory as3-default-build-file-name))))))
+(if (file-exists-p build-file)
+    (progn
+     (setq as3-build-file build-file)
+     (flymake-mode 1)
+     (message (concat "Set flymake mode with build file, " build-file ".")))
+(message (concat "Build file, " build-file ", does not exist.")))))
+
+(defun flymake-as3-init ()
+(if as3-build-file
+(progn
+    (remove-hook 'after-save-hook 'flymake-after-save-hook t)
+    (save-buffer)
+    (add-hook 'after-save-hook 'flymake-after-save-hook nil t)
+    (list "ruby" (list as3-build-file "compile")))))
+
+(defun flymake-as3-cleanup () (message "Flymake finished checking AS3."))
+(defun flymake-as3-get-real-file-name (tmp-file) tmp-file)
+
+
+(setq flymake-allowed-file-name-masks
+(cons '(".+\\.as$\\|.+\\.mxml$"
+     flymake-as3-init
+     flymake-as3-cleanup
+     flymake-as3-get-real-file-name)
+     flymake-allowed-file-name-masks))
+
+(setq flymake-err-line-patterns
+(cons '("^\\(.*\\)(\\([0-9]+\\)): col: \\([0-9]+\\) Error: \\(.*\\)$" 1 2 3 4)
+     flymake-err-line-patterns))
+
+(define-key actionscript-mode-map (kbd "C-c p") 'flymake-goto-prev-error)
+(define-key actionscript-mode-map (kbd "C-c n") 'flymake-goto-next-error)
+
+
+(defun as3-compile ()
+"Launch an emacs compile for the current project"
+(interactive)
+(if as3-build-file
+(let ((command (concat "ruby " as3-build-file " compile_and_show")))
+    (save-some-buffers (not compilation-ask-about-save) nil)
+    (setq compilation-directory (file-name-directory as3-build-file))
+    (compilation-start command))))
+
+(define-key actionscript-mode-map (kbd "C-c k") 'as3-compile)
+
+(add-hook 'actionscript-mode-hook
+'(lambda ()
+     (flymake-as3-mode)
+     ))
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; plugins
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Utilities
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; use spaces instead of indent
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+;; use clipboard
+(setq x-select-enable-clipboard t)
+;; show parentheses matches
+(show-paren-mode t)
+;; no tool bar and menu bar and scroll bar
+(tool-bar-mode nil)
+(menu-bar-mode nil)
+(scroll-bar-mode nil)
+;; no startup page
+(setq inhibit-startup-message t)
+;; 显示列号
+(global-linum-mode t)
+;; 启动Emacs Server
+(server-start)
+;; set folder for auto-save
+(setq
+   backup-by-copying t ; 自动备份
+   backup-directory-alist '(("." . "~/.saves")) ; 自动备份在目录"~/.saves"下
+   delete-old-versions t ; 自动删除旧的备份文件
+   kept-new-versions 6 ; 保留最近的6个备份文件
+   kept-old-versions 2 ; 保留最早的2个备份文件
+   version-control t) ; 多次备份
+;; turn on soft wrapping mode for org mode
+(add-hook 'org-mode-hook
+ (lambda () (setq truncate-lines nil)))
+;; 'y' for 'yes', 'n' for 'no'
+(fset 'yes-or-no-p 'y-or-n-p)
+;; be full screen when start up.
+(my-fullscreen)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Utilities
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
